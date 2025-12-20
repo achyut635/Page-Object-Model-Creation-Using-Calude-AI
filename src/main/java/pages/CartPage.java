@@ -30,14 +30,18 @@ public class CartPage extends BasePage {
     gotoPath("/gp/cart/view.html");
     waitForPageLoad();
     // Wait for cart to fully load (either items or empty message)
+    boolean cartLoaded = false;
     try {
       waitForVisible(activeCart);
+      cartLoaded = true;
     } catch (Exception e) {
       // If active cart not visible, wait for empty message
       try {
         waitForVisible(emptyMessage);
+        cartLoaded = true;
       } catch (Exception ex) {
-        // Page structure might vary, continue anyway
+        // Neither element found - cart page failed to load
+        throw new RuntimeException("Cart page failed to load - neither cart items nor empty message found after 20s");
       }
     }
   }
