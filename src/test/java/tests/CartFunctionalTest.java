@@ -76,14 +76,7 @@ public class CartFunctionalTest {
       System.out.println("No warranty popup appeared");
     }
 
-    // Wait a moment for cart to update
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Navigate to cart and verify
+    // Navigate to cart and verify (dynamic wait will happen on open)
     cart.open();
     cart.waitForVisible(cart.activeCart);
 
@@ -126,14 +119,7 @@ public class CartFunctionalTest {
       // No popup
     }
 
-    // Wait for cart to update
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Go to cart
+    // Go to cart (dynamic wait will happen on open)
     CartPage cart = new CartPage(driver);
     cart.open();
     cart.waitForVisible(cart.activeCart);
@@ -160,14 +146,7 @@ public class CartFunctionalTest {
     CartPage cart = new CartPage(driver);
     cart.open();
 
-    // Wait for page to load
-    try {
-      Thread.sleep(1500);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Verify either cart has items or shows empty message
+    // Verify either cart has items or shows empty message (page already loaded by cart.open)
     boolean hasItems = false;
     boolean showsEmptyMessage = false;
 

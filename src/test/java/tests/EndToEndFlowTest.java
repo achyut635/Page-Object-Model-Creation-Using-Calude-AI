@@ -73,14 +73,7 @@ public class EndToEndFlowTest {
       System.out.println("No warranty popup");
     }
 
-    // Wait for cart update
-    try {
-      Thread.sleep(2500);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Step 5: Verify cart
+    // Step 5: Verify cart (dynamic wait on cart.open)
     System.out.println("Step 5: Verifying cart contents");
     CartPage cart = new CartPage(driver);
     cart.open();
@@ -160,13 +153,7 @@ public class EndToEndFlowTest {
       // No popup
     }
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Step 6: Verify cart
+    // Step 6: Verify cart (dynamic wait on cart.open)
     System.out.println("Step 6: Verifying cart");
     CartPage cart = new CartPage(driver);
     cart.open();
@@ -225,13 +212,7 @@ public class EndToEndFlowTest {
     System.out.println("Step 5: Navigating back to home page");
     home.el(home.logoLink).click();
 
-    try {
-      Thread.sleep(1500);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Verify we're back on home page
+    // Verify we're back on home page (dynamic wait on element check)
     home = new AmazonHomePage(driver);
     Assert.assertTrue(home.el(home.searchInput).isDisplayed(), "Should be back on home page");
     System.out.println("Successfully navigated back to home page");
@@ -271,13 +252,7 @@ public class EndToEndFlowTest {
       // No popup
     }
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Verify cart
+    // Verify cart (cart count will wait for element)
     CartPage cart = new CartPage(driver);
     String cartCount = cart.text(cart.headerCartCount);
     System.out.println("Cart count: " + cartCount);

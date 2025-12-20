@@ -108,15 +108,9 @@ public class ProductInteractionTest {
       System.out.println("No warranty popup");
     }
 
-    // Wait for cart to update
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Verify cart count updated
+    // Verify cart count updated (use dynamic wait)
     CartPage cart = new CartPage(driver);
+    cart.waitForPageLoad();
     String cartCount = cart.text(cart.headerCartCount);
     System.out.println("Cart count after adding: " + cartCount);
     Assert.assertTrue(!cartCount.equals("0"), "Cart count should be greater than 0 after adding item");

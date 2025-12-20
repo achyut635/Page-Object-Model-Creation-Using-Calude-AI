@@ -26,7 +26,25 @@ public class CartPage extends BasePage {
 
   public CartPage(WebDriver driver) { super(driver); }
 
-  public void open() { gotoPath("/gp/cart/view.html"); }
+  public void open() {
+    gotoPath("/gp/cart/view.html");
+    waitForPageLoad();
+    // Wait for cart to fully load (either items or empty message)
+    try {
+      waitForVisible(activeCart);
+    } catch (Exception e) {
+      // If active cart not visible, wait for empty message
+      try {
+        waitForVisible(emptyMessage);
+      } catch (Exception ex) {
+        // Page structure might vary, continue anyway
+      }
+    }
+  }
+
+  public void waitForCartCountUpdate(String expectedCount) {
+    waitForTextInElement(headerCartCount, expectedCount);
+  }
 
   public List<WebElement> items() { return driver.findElements(cartItems); }
 
