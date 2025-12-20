@@ -1,4 +1,4 @@
-# Amazon.com POM — Java + Selenium + TestNG + Allure
+# Page Object Model Creation — Using Claude AI
 
 With **Allure reports** and **TestNG suites** (smoke, regression, parallel).
 
