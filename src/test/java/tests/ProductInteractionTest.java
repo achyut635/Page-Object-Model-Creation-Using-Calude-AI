@@ -4,6 +4,7 @@ import base.DriverFactory;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+import org.testng.Assert;
 import pages.*;
 
 @Listeners({base.AllureTestListener.class})
@@ -37,7 +38,7 @@ public class ProductInteractionTest {
     String searchResult = results.text(results.firstResultTitle);
     System.out.println("Opening product: " + searchResult);
 
-    assert searchResult.length() > 0 : "Search result should have a title";
+    Assert.assertTrue(searchResult.length() > 0, "Search result should have a title");
     results.openFirstResult();
 
     AmazonProductPage product = new AmazonProductPage(driver);
@@ -45,19 +46,18 @@ public class ProductInteractionTest {
 
     // Verify critical elements
     String title = product.text(product.productTitle);
-    assert title.length() > 0 : "Product title should not be empty";
-    assert title.toLowerCase().contains("speaker") || title.toLowerCase().contains("bluetooth") :
-        "Product title should be relevant to search";
+    Assert.assertTrue(title.length() > 0, "Product title should not be empty");
+    Assert.assertTrue(title.toLowerCase().contains("speaker") || title.toLowerCase().contains("bluetooth"), "Product title should be relevant to search");
     System.out.println("Product title: " + title);
 
     // Verify add to cart button
-    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button should be visible";
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to cart button should be visible");
 
     // Verify price container is present
     try {
       if (product.el(product.priceContainer).isDisplayed()) {
         System.out.println("Price container is visible");
-        assert true;
+        Assert.assertTrue(true);
       }
     } catch (Exception e) {
       System.out.println("Price container not found - this may vary by product");
@@ -67,7 +67,7 @@ public class ProductInteractionTest {
     try {
       if (product.el(product.rating).isDisplayed()) {
         System.out.println("Product rating is displayed");
-        assert true;
+        Assert.assertTrue(true);
       }
     } catch (Exception e) {
       System.out.println("Rating not displayed for this product");
@@ -92,8 +92,8 @@ public class ProductInteractionTest {
     System.out.println("Testing add to cart for: " + productTitle);
 
     // Verify add to cart button is clickable
-    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button must be visible";
-    assert product.el(product.addToCartButton).isEnabled() : "Add to cart button must be enabled";
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to cart button must be visible");
+    Assert.assertTrue(product.el(product.addToCartButton).isEnabled(), "Add to cart button must be enabled");
 
     // Click add to cart
     product.click(product.addToCartButton);
@@ -119,7 +119,7 @@ public class ProductInteractionTest {
     CartPage cart = new CartPage(driver);
     String cartCount = cart.text(cart.headerCartCount);
     System.out.println("Cart count after adding: " + cartCount);
-    assert !cartCount.equals("0") : "Cart count should be greater than 0 after adding item";
+    Assert.assertTrue(!cartCount.equals("0"), "Cart count should be greater than 0 after adding item");
   }
 
   @Test(groups = {"regression", "product"})
@@ -141,14 +141,13 @@ public class ProductInteractionTest {
     // Try to find and verify price
     try {
       product.waitForVisible(product.priceContainer);
-      assert product.el(product.priceContainer).isDisplayed() : "Price container should be visible";
+      Assert.assertTrue(product.el(product.priceContainer).isDisplayed(), "Price container should be visible");
 
       String priceText = product.text(product.priceWhole);
       System.out.println("Product price: " + priceText);
 
       // Price should contain dollar sign and numbers
-      assert priceText.matches(".*\\$[0-9,.]+.*") || priceText.contains("$") :
-          "Price should contain dollar sign and amount";
+      Assert.assertTrue(priceText.matches(".*\\$[0-9,.]+.*") || priceText.contains("$"), "Price should contain dollar sign and amount");
 
     } catch (Exception e) {
       System.out.println("Price not displayed in expected format - may vary by product listing");
@@ -176,14 +175,14 @@ public class ProductInteractionTest {
     try {
       if (product.el(product.rating).isDisplayed()) {
         System.out.println("Rating section is visible");
-        assert true : "Rating should be displayed";
+        Assert.assertTrue(true, "Rating should be displayed");
 
         // Check for review count
         try {
           if (product.el(product.reviewCount).isDisplayed()) {
             String reviewText = product.text(product.reviewCount);
             System.out.println("Review count: " + reviewText);
-            assert reviewText.length() > 0 : "Review count text should not be empty";
+            Assert.assertTrue(reviewText.length() > 0, "Review count text should not be empty");
           }
         } catch (Exception e) {
           System.out.println("Review count not displayed");
@@ -213,7 +212,7 @@ public class ProductInteractionTest {
     // Verify Buy Now button exists
     try {
       if (product.el(product.buyNowButton).isDisplayed()) {
-        assert product.el(product.buyNowButton).isEnabled() : "Buy Now button should be enabled";
+        Assert.assertTrue(product.el(product.buyNowButton).isEnabled(), "Buy Now button should be enabled");
         System.out.println("Buy Now button is available and enabled");
       }
     } catch (Exception e) {
@@ -222,7 +221,6 @@ public class ProductInteractionTest {
     }
 
     // At minimum, Add to Cart should always be present
-    assert product.el(product.addToCartButton).isDisplayed() :
-        "Add to Cart button must always be available";
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to Cart button must always be available");
   }
 }

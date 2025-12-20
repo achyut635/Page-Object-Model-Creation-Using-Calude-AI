@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.*;
 
 import base.DriverFactory;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import org.openqa.selenium.WebDriver;
 
@@ -44,9 +45,9 @@ public class TestCases {
     System.out.println("First result: " + firstResultTitle);
 
     // Assertions for search results
-    assert firstResultTitle.length() > 0 : "First result title should not be empty";
-    assert firstResultTitle.toLowerCase().contains("keyboard") : "First result should be relevant to search term";
-    assert results.allItems().size() > 0 : "Search results should contain at least one item";
+    Assert.assertTrue(firstResultTitle.length() > 0, "First result title should not be empty");
+    Assert.assertTrue(firstResultTitle.toLowerCase().contains("keyboard"), "First result should be relevant to search term");
+    Assert.assertTrue(results.allItems().size() > 0, "Search results should contain at least one item");
 
     results.openFirstResult();
     AmazonProductPage product = new AmazonProductPage(driver);
@@ -55,9 +56,9 @@ public class TestCases {
     System.out.println("Product: " + productTitle);
 
     // Assertions for product page
-    assert productTitle.length() > 0 : "Product title should not be empty";
-    assert product.el(product.productTitle).isDisplayed() : "Product title should be visible";
-    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button should be visible";
+    Assert.assertTrue(productTitle.length() > 0, "Product title should not be empty");
+    Assert.assertTrue(product.el(product.productTitle).isDisplayed(), "Product title should be visible");
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to cart button should be visible");
   }
 
   @Test(groups = {"smoke"})
@@ -70,9 +71,9 @@ public class TestCases {
     signin.waitForVisible(signin.emailInput);
 
     // Assertions for sign-in page
-    assert signin.el(signin.emailInput).isDisplayed() : "Email input should be visible";
-    assert signin.el(signin.continueButton).isDisplayed() : "Continue button should be visible";
-    assert signin.el(signin.createAccountButton).isDisplayed() : "Create account button should be visible";
+    Assert.assertTrue(signin.el(signin.emailInput).isDisplayed(), "Email input should be visible");
+    Assert.assertTrue(signin.el(signin.continueButton).isDisplayed(), "Continue button should be visible");
+    Assert.assertTrue(signin.el(signin.createAccountButton).isDisplayed(), "Create account button should be visible");
 
     CartPage cart = new CartPage(driver);
     cart.open();
@@ -81,7 +82,7 @@ public class TestCases {
     System.out.println("Cart subtotal label: " + subtotalLabel);
 
     // Assertions for cart page
-    assert subtotalLabel.length() > 0 : "Cart subtotal label should not be empty";
-    assert cart.el(cart.headerCartLink).isDisplayed() : "Cart link should be visible";
+    Assert.assertTrue(subtotalLabel.length() > 0, "Cart subtotal label should not be empty");
+    Assert.assertTrue(cart.el(cart.headerCartLink).isDisplayed(), "Cart link should be visible");
   }
 }

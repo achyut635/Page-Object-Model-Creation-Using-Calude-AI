@@ -4,6 +4,7 @@ import base.DriverFactory;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+import org.testng.Assert;
 import pages.*;
 
 @Listeners({base.AllureTestListener.class})
@@ -41,11 +42,10 @@ public class EndToEndFlowTest {
     String firstResultTitle = results.text(results.firstResultTitle);
     System.out.println("Step 2: Found result - " + firstResultTitle);
 
-    assert firstResultTitle.length() > 0 : "Search results should display product titles";
-    assert results.allItems().size() > 0 : "Search should return multiple results";
-    assert firstResultTitle.toLowerCase().contains("headphone") ||
-           firstResultTitle.toLowerCase().contains("wireless") :
-           "Search results should be relevant to query";
+    Assert.assertTrue(firstResultTitle.length() > 0, "Search results should display product titles");
+    Assert.assertTrue(results.allItems().size() > 0, "Search should return multiple results");
+    Assert.assertTrue(firstResultTitle.toLowerCase().contains("headphone") ||
+           firstResultTitle.toLowerCase().contains("wireless"), "Search results should be relevant to query");
 
     // Step 3: Open product page
     System.out.println("Step 3: Opening product page");
@@ -56,8 +56,8 @@ public class EndToEndFlowTest {
     String productTitle = product.text(product.productTitle);
     System.out.println("Product page loaded: " + productTitle);
 
-    assert productTitle.length() > 0 : "Product page should show title";
-    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button should be visible";
+    Assert.assertTrue(productTitle.length() > 0, "Product page should show title");
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to cart button should be visible");
 
     // Step 4: Add to cart
     System.out.println("Step 4: Adding product to cart");
@@ -86,12 +86,12 @@ public class EndToEndFlowTest {
     cart.open();
     cart.waitForVisible(cart.activeCart);
 
-    assert cart.items().size() > 0 : "Cart should contain the added product";
-    assert cart.el(cart.cartSubTotalLabel).isDisplayed() : "Cart should show subtotal";
+    Assert.assertTrue(cart.items().size() > 0, "Cart should contain the added product");
+    Assert.assertTrue(cart.el(cart.cartSubTotalLabel).isDisplayed(), "Cart should show subtotal");
 
     String cartCount = cart.text(cart.headerCartCount);
     System.out.println("Final cart count: " + cartCount);
-    assert !cartCount.equals("0") : "Cart count should reflect added items";
+    Assert.assertTrue(!cartCount.equals("0"), "Cart count should reflect added items");
 
     System.out.println("✓ Complete shopping flow test PASSED");
   }
@@ -113,7 +113,7 @@ public class EndToEndFlowTest {
     int resultCount = results.allItems().size();
     System.out.println("Step 2: Found " + resultCount + " results");
 
-    assert resultCount >= 3 : "Should have at least 3 products to browse";
+    Assert.assertTrue(resultCount >= 3, "Should have at least 3 products to browse");
 
     // Step 3: Browse first product
     System.out.println("Step 3: Browsing first product");
@@ -133,7 +133,7 @@ public class EndToEndFlowTest {
     }
 
     System.out.println("Product 1 - Title: " + product1Title + ", Price: " + product1Price);
-    assert product1Title.length() > 0 : "First product should have a title";
+    Assert.assertTrue(product1Title.length() > 0, "First product should have a title");
 
     // Step 4: Navigate back to search results
     System.out.println("Step 4: Navigating back to search results");
@@ -141,7 +141,7 @@ public class EndToEndFlowTest {
 
     results = new AmazonSearchResultsPage(driver);
     results.waitForVisible(results.firstResultTitle);
-    assert results.allItems().size() > 0 : "Should return to search results";
+    Assert.assertTrue(results.allItems().size() > 0, "Should return to search results");
 
     // Step 5: Add first product to cart
     System.out.println("Step 5: Adding first product to cart");
@@ -172,7 +172,7 @@ public class EndToEndFlowTest {
     cart.open();
     cart.waitForVisible(cart.activeCart);
 
-    assert cart.items().size() > 0 : "Cart should contain browsed product";
+    Assert.assertTrue(cart.items().size() > 0, "Cart should contain browsed product");
     System.out.println("Cart items: " + cart.items().size());
 
     System.out.println("✓ Multi-product browsing flow test PASSED");
@@ -187,9 +187,9 @@ public class EndToEndFlowTest {
     AmazonHomePage home = new AmazonHomePage(driver);
     System.out.println("Step 1: Verifying home page elements");
 
-    assert home.el(home.searchInput).isDisplayed() : "Search box should be visible on home";
-    assert home.el(home.logoLink).isDisplayed() : "Amazon logo should be visible";
-    assert home.el(home.cartLink).isDisplayed() : "Cart link should be visible";
+    Assert.assertTrue(home.el(home.searchInput).isDisplayed(), "Search box should be visible on home");
+    Assert.assertTrue(home.el(home.logoLink).isDisplayed(), "Amazon logo should be visible");
+    Assert.assertTrue(home.el(home.cartLink).isDisplayed(), "Cart link should be visible");
 
     // Step 2: Perform search
     String searchQuery = "gaming keyboard";
@@ -201,14 +201,13 @@ public class EndToEndFlowTest {
     results.waitForVisible(results.firstResultTitle);
     System.out.println("Step 3: Validating search results");
 
-    assert results.allItems().size() > 0 : "Should have search results";
-    assert results.el(results.sortDropdown).isDisplayed() : "Sort dropdown should be available";
+    Assert.assertTrue(results.allItems().size() > 0, "Should have search results");
+    Assert.assertTrue(results.el(results.sortDropdown).isDisplayed(), "Sort dropdown should be available");
 
     String firstResult = results.text(results.firstResultTitle);
     System.out.println("First result: " + firstResult);
-    assert firstResult.toLowerCase().contains("keyboard") ||
-           firstResult.toLowerCase().contains("gaming") :
-           "Results should match search query";
+    Assert.assertTrue(firstResult.toLowerCase().contains("keyboard") ||
+           firstResult.toLowerCase().contains("gaming"), "Results should match search query");
 
     // Step 4: Open product
     System.out.println("Step 4: Opening product page");
@@ -219,8 +218,8 @@ public class EndToEndFlowTest {
     String productTitle = product.text(product.productTitle);
     System.out.println("Product opened: " + productTitle);
 
-    assert productTitle.length() > 0 : "Product should have title";
-    assert product.el(product.addToCartButton).isDisplayed() : "Should have add to cart option";
+    Assert.assertTrue(productTitle.length() > 0, "Product should have title");
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Should have add to cart option");
 
     // Step 5: Navigate back to home
     System.out.println("Step 5: Navigating back to home page");
@@ -234,7 +233,7 @@ public class EndToEndFlowTest {
 
     // Verify we're back on home page
     home = new AmazonHomePage(driver);
-    assert home.el(home.searchInput).isDisplayed() : "Should be back on home page";
+    Assert.assertTrue(home.el(home.searchInput).isDisplayed(), "Should be back on home page");
     System.out.println("Successfully navigated back to home page");
 
     System.out.println("✓ Search and navigation flow test PASSED");
@@ -282,7 +281,7 @@ public class EndToEndFlowTest {
     CartPage cart = new CartPage(driver);
     String cartCount = cart.text(cart.headerCartCount);
     System.out.println("Cart count: " + cartCount);
-    assert !cartCount.equals("0") : "Cart should have items";
+    Assert.assertTrue(!cartCount.equals("0"), "Cart should have items");
 
     System.out.println("✓ Quick add to cart flow test PASSED");
   }

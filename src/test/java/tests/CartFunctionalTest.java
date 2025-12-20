@@ -4,6 +4,7 @@ import base.DriverFactory;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+import org.testng.Assert;
 import pages.*;
 
 @Listeners({base.AllureTestListener.class})
@@ -38,8 +39,8 @@ public class CartFunctionalTest {
     System.out.println("Selected product: " + searchResultTitle);
 
     // Assertions for search results
-    assert searchResultTitle.length() > 0 : "Search result title should not be empty";
-    assert results.allItems().size() > 0 : "Search should return at least one result";
+    Assert.assertTrue(searchResultTitle.length() > 0, "Search result title should not be empty");
+    Assert.assertTrue(results.allItems().size() > 0, "Search should return at least one result");
 
     results.openFirstResult();
 
@@ -62,7 +63,7 @@ public class CartFunctionalTest {
 
     // Add to cart
     product.waitForVisible(product.addToCartButton);
-    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button should be visible";
+    Assert.assertTrue(product.el(product.addToCartButton).isDisplayed(), "Add to cart button should be visible");
     product.click(product.addToCartButton);
 
     // Handle warranty popup if it appears
@@ -87,13 +88,13 @@ public class CartFunctionalTest {
     cart.waitForVisible(cart.activeCart);
 
     // Verify cart is not empty
-    assert cart.items().size() > 0 : "Cart should contain at least one item after adding product";
+    Assert.assertTrue(cart.items().size() > 0, "Cart should contain at least one item after adding product");
     System.out.println("Cart items count: " + cart.items().size());
 
     // Verify cart count increased
     String finalCartCount = cart.text(cart.headerCartCount);
     System.out.println("Final cart count: " + finalCartCount);
-    assert !finalCartCount.equals("0") : "Cart count should not be 0 after adding item";
+    Assert.assertTrue(!finalCartCount.equals("0"), "Cart count should not be 0 after adding item");
   }
 
   @Test(groups = {"regression", "cart"})
@@ -138,12 +139,12 @@ public class CartFunctionalTest {
     cart.waitForVisible(cart.activeCart);
 
     // Verify cart page elements
-    assert cart.el(cart.cartSubTotalLabel).isDisplayed() : "Cart subtotal label should be visible";
-    assert cart.items().size() > 0 : "Cart should have items";
+    Assert.assertTrue(cart.el(cart.cartSubTotalLabel).isDisplayed(), "Cart subtotal label should be visible");
+    Assert.assertTrue(cart.items().size() > 0, "Cart should have items");
 
     String subtotalLabel = cart.text(cart.cartSubTotalLabel);
     System.out.println("Subtotal label: " + subtotalLabel);
-    assert subtotalLabel.contains("Subtotal") || subtotalLabel.length() > 0 : "Subtotal label should be present";
+    Assert.assertTrue(subtotalLabel.contains("Subtotal") || subtotalLabel.length() > 0, "Subtotal label should be present");
 
     // Verify at least one item exists in cart
     if (cart.items().size() > 0) {
@@ -189,9 +190,9 @@ public class CartFunctionalTest {
     }
 
     // Cart should either have items or show empty message
-    assert hasItems || showsEmptyMessage : "Cart should either show items or empty message";
+    Assert.assertTrue(hasItems || showsEmptyMessage, "Cart should either show items or empty message");
 
     // Verify cart link is always present
-    assert cart.el(cart.headerCartLink).isDisplayed() : "Cart link should always be visible in header";
+    Assert.assertTrue(cart.el(cart.headerCartLink).isDisplayed(), "Cart link should always be visible in header");
   }
 }
