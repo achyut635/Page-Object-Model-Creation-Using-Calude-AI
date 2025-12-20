@@ -14,6 +14,9 @@
     <classes>
       <class name="tests.TestCases"/>
       <class name="tests.ProductFlowTest"/>
+      <class name="tests.CartFunctionalTest"/>
+      <class name="tests.ProductInteractionTest"/>
+      <class name="tests.EndToEndFlowTest"/>
     </classes>
   </test>
 </suite>

@@ -40,12 +40,24 @@ public class TestCases {
 
     AmazonSearchResultsPage results = new AmazonSearchResultsPage(driver);
     results.waitForVisible(results.firstResultTitle);
-    System.out.println("First result: " + results.text(results.firstResultTitle));
+    String firstResultTitle = results.text(results.firstResultTitle);
+    System.out.println("First result: " + firstResultTitle);
+
+    // Assertions for search results
+    assert firstResultTitle.length() > 0 : "First result title should not be empty";
+    assert firstResultTitle.toLowerCase().contains("keyboard") : "First result should be relevant to search term";
+    assert results.allItems().size() > 0 : "Search results should contain at least one item";
 
     results.openFirstResult();
     AmazonProductPage product = new AmazonProductPage(driver);
     product.waitForVisible(product.productTitle);
-    System.out.println("Product: " + product.text(product.productTitle));
+    String productTitle = product.text(product.productTitle);
+    System.out.println("Product: " + productTitle);
+
+    // Assertions for product page
+    assert productTitle.length() > 0 : "Product title should not be empty";
+    assert product.el(product.productTitle).isDisplayed() : "Product title should be visible";
+    assert product.el(product.addToCartButton).isDisplayed() : "Add to cart button should be visible";
   }
 
   @Test(groups = {"smoke"})
@@ -57,9 +69,19 @@ public class TestCases {
     signin.gotoPath("/ap/signin");
     signin.waitForVisible(signin.emailInput);
 
+    // Assertions for sign-in page
+    assert signin.el(signin.emailInput).isDisplayed() : "Email input should be visible";
+    assert signin.el(signin.continueButton).isDisplayed() : "Continue button should be visible";
+    assert signin.el(signin.createAccountButton).isDisplayed() : "Create account button should be visible";
+
     CartPage cart = new CartPage(driver);
     cart.open();
     cart.waitForVisible(cart.cartSubTotalLabel);
-    System.out.println("Cart subtotal label: " + cart.text(cart.cartSubTotalLabel));
+    String subtotalLabel = cart.text(cart.cartSubTotalLabel);
+    System.out.println("Cart subtotal label: " + subtotalLabel);
+
+    // Assertions for cart page
+    assert subtotalLabel.length() > 0 : "Cart subtotal label should not be empty";
+    assert cart.el(cart.headerCartLink).isDisplayed() : "Cart link should be visible";
   }
 }
