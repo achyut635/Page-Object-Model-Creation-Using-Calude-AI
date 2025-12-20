@@ -20,9 +20,6 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: maven clean
-        run: mvn clean install -U
-
       - name: Install dependencies
         run: mvn -q -DskipTests dependency:resolve
 
