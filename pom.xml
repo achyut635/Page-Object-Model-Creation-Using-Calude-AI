@@ -13,7 +13,6 @@
     <testng.version>7.8.0</testng.version>
     <webdrivermanager.version>5.9.0</webdrivermanager.version>
     <allure.testng.version>2.24.0</allure.testng.version>
-    <playwright.version>1.44.0</playwright.version>
   </properties>
 
   <dependencies>
@@ -41,13 +40,7 @@
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-testng</artifactId>
       <version>${allure.testng.version}</version>
-    </dependency>
-
-    <!-- Playwright Java -->
-    <dependency>
-      <groupId>com.microsoft.playwright</groupId>
-      <artifactId>playwright</artifactId>
-      <version>${playwright.version}</version>
+      
     </dependency>
   </dependencies>
 
