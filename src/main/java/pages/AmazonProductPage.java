@@ -23,4 +23,15 @@ public class AmazonProductPage extends BasePage {
   public final By noThanksWarranty = By.xpath("//button[contains(., 'No Thanks') or contains(., 'No, thanks')]");
 
   public AmazonProductPage(WebDriver driver) { super(driver); }
+
+  public void addToCartAndHandlePopups() {
+    click(addToCartButton);
+    waitForPageLoad();
+
+    // Handle warranty popup if it appears (with short timeout)
+    if (isElementVisible(noThanksWarranty)) {
+      click(noThanksWarranty);
+      waitForPageLoad();
+    }
+  }
 }

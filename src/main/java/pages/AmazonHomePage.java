@@ -29,5 +29,6 @@ public class AmazonHomePage extends BasePage {
   public void search(String query) {
     type(searchInput, query);
     click(searchSubmit);
+    waitForPageLoad();
   }
 }
